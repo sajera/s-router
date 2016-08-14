@@ -1,4 +1,4 @@
 *.log
-#*.gitignore
+*.gitignore
 node_modules/*
 bower_components/*
