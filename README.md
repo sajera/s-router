@@ -1,6 +1,6 @@
 s-router
 ===============
-### Router for slicing a middleware by routes
+### Router for slicing a middleware by endpoints
 
 ```shell
 npm i s-router --save
