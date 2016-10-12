@@ -1,12 +1,12 @@
 
 'use strict'
 
-module.exports = require('s-declare')('router', [
-	'../../lib/log.js',
-	'../../lib/Super.js',
-	'../../lib/Params.js',
-	'../../lib/Endpoint.js',
-	'../../lib/Router.js',
+module.exports = require('s-declare')(null, [
+	'./lib/log.js',
+	'./lib/Super.js',
+	'./lib/Params.js',
+	'./lib/Endpoint.js',
+	'./lib/Router.js',
 	function ( log, Super, Params, Endpoint, Router ) {
 
 		var MAP = {};

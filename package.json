@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "node test/test.js",
-    "look": "devtool test/test"
+    "debug": "devtool test/test"
   },
   "homepage": "https://github.com/sajera/s-router#readme",
   "repository": {
@@ -24,7 +24,7 @@
   "author": "Sajera: Serhii P <allsajera@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "s-declare": "^1.2.8",
+    "s-declare": "^1.5.1",
     "s-logger": "^2.0.1"
   }
 }

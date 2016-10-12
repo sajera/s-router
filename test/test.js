@@ -68,7 +68,7 @@ router
 	});
 
 
-router.extendParams(function ( data ) {
+router.extendParams(function () {
 	this.test = function () {
 		console.log(this);
 	}
