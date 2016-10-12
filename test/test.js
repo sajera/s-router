@@ -6,7 +6,7 @@ console.log('test');
 var log = console.log.bind(console);
 var HTTP = require('http');
 var router = require('../index.js')('router-id',{
-	debug: false,
+	debug: true,
 	error: function ( request, response, params ) {
 		log('WARN', 'defaultError:', arguments);
 

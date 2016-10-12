@@ -1,14 +1,11 @@
 
 'use strict'
 
-module.exports = require('s-declare')(null, [
-	'./lib/log.js',
-	'./lib/Router.js',
-	function ( log, Router ) {
+module.exports = require('s-declare')(null, ['./lib/Router.js', function ( Router ) {
 
 		var MAP = {};
 		/**
-		 * mapper for management and asynchronous extradition routers by name
+		 * mapper for management and asynchronous extradition routers by id
 		 *
 		 * @param: { String } - name/id
 		 * @param: { Object } - options
@@ -17,7 +14,7 @@ module.exports = require('s-declare')(null, [
 		 */
 		return function ( id, options ) {
 			id = String( id );
-			!MAP[ id ] && ( MAP[ id ] = new Router( id, options||{}) );
+			!MAP[ id ] && ( MAP[ id ] = new Router( id, options||{} ) );
 			return MAP[ id ];
 		};
 }]);
