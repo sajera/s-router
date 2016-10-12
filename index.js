@@ -3,11 +3,8 @@
 
 module.exports = require('s-declare')(null, [
 	'./lib/log.js',
-	'./lib/Super.js',
-	'./lib/Params.js',
-	'./lib/Endpoint.js',
 	'./lib/Router.js',
-	function ( log, Super, Params, Endpoint, Router ) {
+	function ( log, Router ) {
 
 		var MAP = {};
 		/**
