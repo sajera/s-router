@@ -34,7 +34,7 @@ var mapper = require('s-router');
 var router = mapper('id-of-this-router', {/* options */}); 
 // create instance of endpoint to handling /some/api/test/anyString[/] or /some/api/test[/]
 var endpoint = router.endpoint('test-id-of-endpoint', '/some/api/{?:test}');
-// ccreate instance of endpoint to handling /some/api/test2/anyString[/]
+// create instance of endpoint to handling /some/api/test2/anyString[/]
 var endpoint2 = router.endpoint('test-id-of-endpoint2', '/some/api/{:test2}');
 
 // easy delegate to another file
