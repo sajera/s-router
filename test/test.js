@@ -74,6 +74,23 @@ router.extendParams(function () {
 	}
 });
 
+var mapper = require('../index.js');
+
+var router = mapper('id-of-this-router', {/* options */}); 
+
+var endpoint = router.endpoint('test-id-of-endpoint', '/some/api/{:test}')
+
+
+
+if (
+	router === require('../index.js')('id-of-this-router') &&
+	endpoint === require('../index.js')('id-of-this-router').endpoint('test-id-of-endpoint')
+) {
+	console.log( 'Completely usability victory !!!' );
+} else {
+	console.log( 'Completely fail ...' );
+};
+
 
 
 	// TEST Endpoint matcher
@@ -111,4 +128,3 @@ router.extendParams(function () {
 	// 		test: this.compare('/some/api/p1/12345/p2/12345/static/123'),
 	// 	}
 	// });
-
