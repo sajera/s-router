@@ -3,13 +3,12 @@
 
 s-router
 ===============
-###### Router for slicing a middleware by endpoints
+###### Router for slicing a middleware by endpoints.
 
 ### installation
 ```shell
 npm i s-router --save
 ```
-
 
 ### Router map 
 
@@ -25,26 +24,119 @@ The router offers several abstractions to build a route-map. Using these abstrac
 
 --------------
 
+### Example configuring
 
-Example 
---------------
+To understand the the map makes sense to describe the endpoints in one place. This is not the only option, but popular.
 
 ```javascript
-var uid = require('s-uid');
+var mapper = require('s-router');
+// create instance of router
+var router = mapper('id-of-this-router', {/* options */}); 
+// create instance of endpoint to handling /some/api/test/anyString[/] or /some/api/test[/]
+var endpoint = router.endpoint('test-id-of-endpoint', '/some/api/{?:test}');
+// ccreate instance of endpoint to handling /some/api/test2/anyString[/]
+var endpoint2 = router.endpoint('test-id-of-endpoint2', '/some/api/{:test2}');
 
-// generate from default base (just random not more)
-uid();		// => "sbhcsnb-nlu9-7hgl-ejtc-n6iibgp"
+// easy delegate to another file
+if (
+    router === require('s-router')('id-of-this-router') &&
+    endpoint === require('s-router')('id-of-this-router').endpoint('test-id-of-endpoint')
+) {
+	console.log( 'Completely usability victory !!!' );
+} else {
+	console.log( 'Completely fail ...' );
+};
 
-// generate from costom base
-uid('SSSSSS');				// => "bfvuuq"
-uid('NNNNNN');				// => "928890"
-uid('XXXXXX');				// => "5tr8lh"
-uid('XXX-4NNN-dummy-SSS');	// => "uf3-4223-dummy-qea"
 ```
 
+### Example handling
 
-**Note:** Sory release not ready yet.
+When we already have started endpoints. We can refer to them by name. And set queue of handlers which would create response. Each method of adding processors can take as a function or an array of functions.
 
+```javascript
+
+var router = require('s-router')('id-of-this-router')
+
+router.endpoint('test-id-of-endpoint')
+    .get(function ( request, response, params ) {
+        params.test // from /some/api/test/anyString => 'anyString'
+        params.prepareSome = 2;
+        params.next();
+    })
+    .get(function ( request, response, params ) {
+        params.query // ParsedQueryString
+        params.urlObject // Url
+        params.prepareSome // 2
+        response.end('nothing');
+    })
+    .post(function ( request, response, params ) {
+        params.test // from /some/api/test/anyString => 'anyString'
+        params.body // string with body of post data
+        response.end('nothing');
+    })
+    .error(function ( request, response, params ) {
+        params.error // contain error messge for this endpoint
+        response.end('error');
+    })
+    .use(function ( request, response, params ) {
+        // execute before queue of endpoint
+        params.next();
+    })
+    .use(function ( request, response, params ) {
+        // execute before queue of endpoint but after previous endpoint 'use' handler
+        params.next();
+    });
+
+```
+
+### Example pretreatment
+
+In turn, the instance router may pretreated with any request. Each request and by methods. It contains the same methods as the endpoint. But his handlers are added to the top of the queue, before the queue of end point.
+
+```javascript
+
+var router = require('s-router')('id-of-this-router')
+
+router.get(function ( request, response, params ) {
+        // execute before get queue each of endpoints
+        params.next();
+    })
+    .post(function ( request, response, params ) {
+        // execute before post queue each of endpoints
+        params.next();
+    })
+    .error(function ( request, response, params ) {
+        // execute before errors each of endpoints
+        params.next();
+    })
+    .use(function ( request, response, params ) {
+        // execute before queue each of endpoints
+        params.next();
+    })
+    .use(function ( request, response, params ) {
+        // execute before queue each of endpoint but after previous router 'use' handler
+        params.next();
+    });
+
+```
+
+### Example Params extend
+
+An instance of the parameters(third arguments) for each request is new. If it becomes necessary to add the values - instance of router involves functionality the expansion prototype of the constructor Params. How it looks.
+
+```javascript
+
+var router = require('s-router')('id-of-this-router')
+
+router.extendParams(function ( request, response, params ) {
+    this.test = function () {
+        console.log('I am a method - which will be available in all handlers like a params.test()');
+    };
+});
+
+```
+
+**Note:** You can build your map as you wish. These are only examples, "as it could be"
 
 [npm-image]: https://badge.fury.io/js/s-router.svg
 [npm-url]: https://npmjs.org/package/s-router
