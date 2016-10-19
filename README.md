@@ -75,7 +75,7 @@ router.endpoint('test-id-of-endpoint')
         response.end('nothing');
     })
     .error(function ( request, response, params ) {
-        params.error // contain error messge for this endpoint
+        params.error // contain error message for this endpoint
         response.end('error');
     })
     .use(function ( request, response, params ) {
