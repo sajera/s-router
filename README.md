@@ -1,5 +1,6 @@
 
 [![NPM version][npm-image]][npm-url]
+[![License][license-image]][license-url]
 
 s-router
 ===============
@@ -140,3 +141,5 @@ router.extendParams(function ( request, response, params ) {
 
 [npm-image]: https://badge.fury.io/js/s-router.svg
 [npm-url]: https://npmjs.org/package/s-router
+[license-image]: http://img.shields.io/npm/l/s-router.svg
+[license-url]: LICENSE
