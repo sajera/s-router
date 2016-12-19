@@ -94,7 +94,7 @@ router.get(function ( request, response, params ) {
         // execute before post queue each of endpoints
     })
     .error(function ( request, response, params ) {
-        // execute before errors each of endpoints
+        // execute after errors each of endpoints
     })
     .use(function ( request, response, params ) {
         // execute before queue each of endpoints
