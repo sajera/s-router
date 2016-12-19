@@ -51,7 +51,7 @@ When we already have started endpoints. We can refer to them by name. And set qu
 var router = require('s-router')('id-of-this-router')
 
 router
-    // '/some/{:p1}'
+    // '/some/p1/1231'
     .endpoint('test-id-of-endpoint', 'some/{:p1}')
     .get(function ( request, response, params ) {
         params.prepareSome = 2;
