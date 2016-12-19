@@ -19,9 +19,11 @@ The router offers several abstractions to build a route-map. Using these abstrac
 
 >**Params** - instances with results of handlers. Which make transmitting the data between them.
 
->**router** - can contain endpoints and global handlers which be added to begin of queue
+>**router** - owner of map with handlers
 
->**endpoint** - can contain handlers, which be added to queue after global handlers
+>**endpoint** - one of the routes of the router
+
+>**unit** - route element
 
 --------------
 
@@ -38,16 +40,6 @@ var endpoint = router.endpoint('test-id-of-endpoint', '/some/api/{?:test}');
 // create instance of endpoint to handling /some/api/test2/anyString[/]
 var endpoint2 = router.endpoint('test-id-of-endpoint2', '/some/api/{:test2}');
 
-// easy delegate to another file
-if (
-    router === require('s-router')('id-of-this-router') &&
-    endpoint === require('s-router')('id-of-this-router').endpoint('test-id-of-endpoint')
-) {
-	console.log( 'Completely usability victory !!!' );
-} else {
-	console.log( 'Completely fail ...' );
-};
-
 ```
 
 ### Example handling
@@ -58,21 +50,17 @@ When we already have started endpoints. We can refer to them by name. And set qu
 
 var router = require('s-router')('id-of-this-router')
 
-router.endpoint('test-id-of-endpoint')
+router
+    // '/some/{:p1}'
+    .endpoint('test-id-of-endpoint', 'some/{:p1}')
     .get(function ( request, response, params ) {
-        params.test // from /some/api/test/anyString => 'anyString'
         params.prepareSome = 2;
-        params.next();
     })
     .get(function ( request, response, params ) {
-        params.query // ParsedQueryString
-        params.urlObject // Url
         params.prepareSome // 2
         response.end('nothing');
     })
     .post(function ( request, response, params ) {
-        params.test // from /some/api/test/anyString => 'anyString'
-        params.body // string with body of post data
         response.end('nothing');
     })
     .error(function ( request, response, params ) {
@@ -81,11 +69,12 @@ router.endpoint('test-id-of-endpoint')
     })
     .use(function ( request, response, params ) {
         // execute before queue of endpoint
-        params.next();
+
     })
     .use(function ( request, response, params ) {
         // execute before queue of endpoint but after previous endpoint 'use' handler
-        params.next();
+        // all next in the queue be wait this promise
+        return new Promise(function ( resolve, reject ) { resolve(); });
     });
 
 ```
@@ -100,23 +89,20 @@ var router = require('s-router')('id-of-this-router')
 
 router.get(function ( request, response, params ) {
         // execute before get queue each of endpoints
-        params.next();
     })
     .post(function ( request, response, params ) {
         // execute before post queue each of endpoints
-        params.next();
     })
     .error(function ( request, response, params ) {
         // execute before errors each of endpoints
-        params.next();
     })
     .use(function ( request, response, params ) {
         // execute before queue each of endpoints
-        params.next();
     })
     .use(function ( request, response, params ) {
         // execute before queue each of endpoint but after previous router 'use' handler
-        params.next();
+        // all next in the queue be wait this promise
+        return new Promise(function ( resolve, reject ) { resolve(); });
     });
 
 ```
@@ -129,12 +115,50 @@ An instance of the parameters(third arguments) for each request is new. If it be
 
 var router = require('s-router')('id-of-this-router')
 
-router.extendParams(function ( request, response, params ) {
+router.extendParams(function () {
     this.test = function () {
         console.log('I am a method - which will be available in all handlers like a params.test()');
     };
 });
 
+```
+
+### Example Unit
+
+Endpoints may use the same preparation handlers. They can put into groups called by actions they solve.
+
+```javascript
+
+var router = require('s-router')('id-of-this-router')
+
+router.unit('someUnit', '/some/{:api}')
+    .get(function ( request, response, params ) {
+        params.options.api;
+        params.somePrepare.push(1);
+        console.log('unit some prepering action on GET');
+    })
+    .use(function ( request, response, params ) {
+        params.somePrepare = [];
+        console.log('unit some prepering action on each request');
+    });
+    
+// create endpoint wich handle '/some/api/1/p1/1231'
+router.endpoint('someUnit.id-of-endpoint', '/{:p1}')
+    .get(function ( request, response, params ) {
+        params.options.p1; // => 1231
+        params.options.api; // => 1
+        params.somePrepare; // => [1]
+    });
+    
+// create endpoint wich handle '/some/api/2/p2/1231/id/2'
+router.endpoint('someUnit.id-enother', '/{:p2}/{?:id}')
+    .get(function ( request, response, params ) {
+        params.options.p1; // => undefined
+        params.options.p2; // => 1231
+        params.options.id; // => 2
+        params.options.api; // => 2
+        params.somePrepare; // => [1]
+    })
 ```
 
 **Note:** You can build your map as you wish. These are only examples, "as it could be"
