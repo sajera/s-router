@@ -34,7 +34,7 @@ To understand the the map makes sense to describe the endpoints in one place. Th
 ```javascript
 var mapper = require('s-router');
 // create instance of router
-var router = mapper('id-of-this-router', {/* options */}); 
+var router = mapper('id-of-this-router'); 
 // create instance of endpoint to handling /some/api/test/anyString[/] or /some/api/test[/]
 var endpoint = router.endpoint('test-id-of-endpoint', '/some/api/{?:test}');
 // create instance of endpoint to handling /some/api/test2/anyString[/]
