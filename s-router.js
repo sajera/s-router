@@ -1,7 +1,8 @@
-/**
+/*
  * s-router    
- * MIT License Copyright (c) 2016 Serhii Perekhrest <allsajera@gmail.com> ( Sajera )    
+ * @license MIT License Copyright (c) 2016 Serhii Perekhrest <allsajera@gmail.com> ( Sajera )    
  */
+/** @ignore */
 (function () {'use strict';
 /*-------------------------------------------------
     DEPENDENCIES for router declare and/or prepare

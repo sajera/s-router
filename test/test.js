@@ -3,7 +3,7 @@ process.env.DEBUG = true;
 console.log('test');
 
 var is = require('s-is');
-var router = require('../router.min.js');
+var router = require('../s-router.min.js');
 
 if ( is.platform.browser() ) {
     window.router = router;
