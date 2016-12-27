@@ -1,5 +1,5 @@
 /*
- * s-router version 0.9.8 at 2016-12-26
+ * s-router version 0.9.9 at 2016-12-27
  * @license MIT License Copyright (c) 2016 Serhii Perekhrest <allsajera@gmail.com> ( Sajera )    
  */
 /** @ignore */
@@ -294,6 +294,7 @@ function Params () {
 
 Params.prototype = {
     constructor: Params,
+    instance: 'Params',
     /**
      * method to override
      */
