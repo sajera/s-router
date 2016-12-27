@@ -1,5 +1,5 @@
 /*
- * s-router    
+ * s-router version 0.9.8 at 2016-12-26
  * @license MIT License Copyright (c) 2016 Serhii Perekhrest <allsajera@gmail.com> ( Sajera )    
  */
 /** @ignore */
@@ -243,7 +243,7 @@ function unitManager ( secretUnit, secretListeners, id, query ) {
     assert(is.string(id), '"ID" of Unit must be a string');
 
     var map = this[secretUnit];
-    !map[id]&&assert(is.string(query), 'for create endpoint "query" required and must be a string');
+    !map[id]&&assert(is.string(query), 'for create unit "query" required and must be a string');
         
     return map[id] ? map[id] : ( map[id] = new Unit(query, secretListeners, id) );
 }
@@ -312,27 +312,29 @@ Params.prototype = {
  */
 function executeAsyncQueue ( args, queue, errorHandler ) {
     var promise;
-    if ( queue.length > 0 ) {
-        // handler execute
-        try { promise = queue[0].apply(null, args);
-        } catch ( error ) {
-            // debug('Error hadled', trace(error) );
-            args[2].error = error;
-            return errorHandler(args[0], args[1], args[2]);
-        }
-    }
-
-    // can be a promise without delegation of data from promises
-    if ( is.promise(promise) ) {
-        promise.then(
-            executeAsyncQueue.bind(null, args, queue.slice(1), errorHandler),
-            function ( error ) {
+    if ( !args[1].finished ) {
+        if ( queue.length > 0 ) {
+            // handler execute
+            try { promise = queue[0].apply(null, args);
+            } catch ( error ) {
+                // debug('Error hadled', trace(error) );
                 args[2].error = error;
-                errorHandler(args[0], args[1], args[2]);
+                return errorHandler(args[0], args[1], args[2]);
             }
-        );
-    } else if ( queue.length > 1 ) {
-        executeAsyncQueue(args, queue.slice(1), errorHandler);
+        }
+
+        // can be a promise without delegation of data from promises
+        if ( is.promise(promise) ) {
+            promise.then(
+                executeAsyncQueue.bind(null, args, queue.slice(1), errorHandler),
+                function ( error ) {
+                    args[2].error = error;
+                    errorHandler(args[0], args[1], args[2]);
+                }
+            );
+        } else if ( queue.length > 1 ) {
+            executeAsyncQueue(args, queue.slice(1), errorHandler);
+        }
     }
 }
 
@@ -373,7 +375,8 @@ function slicingManager ( secretEndpoint, secretListeners, request, response ) {
             .concat( router[secretListeners].PREPROCESSOR||[] )
             .concat( router[secretListeners][request.method]||[] )
             .concat( endpoint[secretListeners].PREPROCESSOR||[] )
-            .concat( endpoint[secretListeners][request.method]||[] ),
+            .concat( endpoint[secretListeners][request.method]||[] )
+            .concat( router.otherwise ),
             function errorQueue (request, response, params) {
                 executeAsyncQueue([request, response, params], []
                     // queue of error listeners
@@ -462,18 +465,26 @@ Router.prototype = new Super({
      */
     crash: function ( req, res, p ) {
         debug('crash report => ', trace(p.error));
-        res.end('404');
+        response.writeHead(404, {"Content-Type": "text/plain"});
+        response.write("404 Not Found\n");
+        response.end();
     },
-    otherwise: function ( req, res, p ) {
+    otherwise: function ( request, response, p ) {
         debug('otherwise => method not allowed');
-        res.end('404');
+        response.writeHead(404, {"Content-Type": "text/plain"});
+        response.write("404 Not Found\n");
+        response.end();
     },
 });
 
 /**
- * EXPORTS
+ * @description
+    npm i --save s-is
+
+ * @example var is = require('s-is')    // in Node.js 
  *
- * @public
+ * @exports s-router
+ * @publick
  */
 if ( is.platform.node() ) module.exports = mapper;
 
