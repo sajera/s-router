@@ -3,7 +3,7 @@ process.env.DEBUG = true;
 console.log('test');
 
 var is = require('s-is');
-var router = require('../s-router.min.js');
+var router = require('../s-router.js');
 
 var server = (require('http')).createServer(router('router-id').middleware)
     .listen({

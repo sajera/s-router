@@ -1,11 +1,11 @@
 {
   "name": "s-router",
-  "version": "0.9.9",
+  "version": "0.9.91",
   "description": "The router for cutting middleware by endpoints",
   "main": "s-router.min.js",
   "scripts": {
     "test": "gulp lint&gulp tests",
-    "rebuild": "gulp build&gulp lint&gulp tests",
+    "rebuild": "gulp build&gulp tests",
     "debug": "devtool test/example.js"
   },
   "homepage": "https://github.com/sajera/s-router#readme",

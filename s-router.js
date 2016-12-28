@@ -1,5 +1,5 @@
 /*
- * s-router version 0.9.9 at 2016-12-27
+ * s-router version 0.9.9 at 2016-12-28
  * @license MIT License Copyright (c) 2016 Serhii Perekhrest <allsajera@gmail.com> ( Sajera )    
  */
 /** @ignore */
@@ -260,7 +260,6 @@ function unitManager ( secretUnit, secretListeners, id, query ) {
  */
 function Unit ( query, secret, id ) {
 
-
     this.id = id;
     this.query = query.replace(/\/+$/,'');
     // visible private map of handlers
@@ -276,31 +275,6 @@ Unit.prototype = new Super({
 
 });
 /*-------------------------------------------------
-    PARAMS
----------------------------------------------------*/
-/**
- * Constructor for provide a common to the each middlevare
- * 
- * @constructor
- * @publick
- */
-function Params () {
-    // simple copy all data to body params
-    Object.assign.apply(Object,[this].concat(Array.prototype.slice.call(arguments)));
-    
-    // customization prepering params
-    is.function(this.initialize)&&this.initialize();
-};
-
-Params.prototype = {
-    constructor: Params,
-    instance: 'Params',
-    /**
-     * method to override
-     */
-    initialize: function () { debug('default params initialize'); }
-};
-/*-------------------------------------------------
     ROUTER
 ---------------------------------------------------*/
 
@@ -312,8 +286,9 @@ Params.prototype = {
  * @private
  */
 function executeAsyncQueue ( args, queue, errorHandler ) {
-    var promise;
     if ( !args[1].finished ) {
+        var promise;
+        
         if ( queue.length > 0 ) {
             // handler execute
             try { promise = queue[0].apply(null, args);
@@ -361,17 +336,15 @@ function slicingManager ( secretEndpoint, secretListeners, request, response ) {
         }
     }
     // prepare addition params
-    var params = new Params({
+    var params = new router.Params({
         'url': parsedURL,
         'query': querystring.parse( parsedURL.query ),
         'options': endpoint ? endpoint.matchParams(parsedURL.pathname) : {},
     });
-    // arguments for each listner
-    var args = [request, response, params];
 
     if ( endpoint ) {
         debug('Handle request '+request.method+' on '+parsedURL.pathname, 'Endpoint: '+endpoint.id);
-        executeAsyncQueue( args, []
+        executeAsyncQueue( [request, response, params], []
             // queue of listeners for this request
             .concat( router[secretListeners].PREPROCESSOR||[] )
             .concat( router[secretListeners][request.method]||[] )
@@ -389,7 +362,7 @@ function slicingManager ( secretEndpoint, secretListeners, request, response ) {
         );
     } else {
         debug('otherwise request '+request.method+' on '+parsedURL.pathname);
-        executeAsyncQueue( args, []
+        executeAsyncQueue( [request, response, params], []
             // queue of listeners for otherwise request
             .concat( router[secretListeners]['PREPROCESSOR']||[] ).concat(router.otherwise),
             function errorQueue ( request, response, params ) {
@@ -430,6 +403,24 @@ function Router ( id ) {
     this[secretUnit] = {};
     this[secretEndpoint] = {};
     this[secretListeners] = {};
+
+    this.Params = Params;
+    function Params () {
+        // simple copy all data to body params
+        Object.assign.apply(Object,[this].concat(Array.prototype.slice.call(arguments)));
+        
+        // customization prepering params
+        is.function(this.initialize)&&this.initialize();
+    };
+    Params.prototype = {
+        constructor: Params,
+        instance: 'Params',
+        /**
+         * method to override
+         */
+        initialize: function () { debug('default params initialize'); }
+    };
+
     // bounding by this
     this.middleware = slicingManager.bind(this, secretEndpoint, secretListeners);
     this.endpoint = endpointManager.bind(this, secretEndpoint, secretUnit, secretListeners);
@@ -454,9 +445,9 @@ Router.prototype = new Super({
         );
 
         if ( is.function(extend) ) {
-            Object.assign(Params.prototype, new extend() );
+            Object.assign(this.Params.prototype, new extend() );
         } else if ( is._object(extend) ) {
-            Object.assign(Params.prototype, extend);
+            Object.assign(this.Params.prototype, extend);
         }
 
         debug(this.id, '=> Params was extendet');
@@ -464,25 +455,25 @@ Router.prototype = new Super({
     /**
      * method to override
      */
-    crash: function ( req, res, p ) {
+    crash: function ( request, response, p ) {
         debug('crash report => ', trace(p.error));
         response.writeHead(404, {"Content-Type": "text/plain"});
-        response.write("404 Not Found\n");
+        response.write("404 Not Found");
         response.end();
     },
     otherwise: function ( request, response, p ) {
         debug('otherwise => method not allowed');
         response.writeHead(404, {"Content-Type": "text/plain"});
-        response.write("404 Not Found\n");
+        response.write("404 Not Found");
         response.end();
     },
 });
 
 /**
  * @description
-    npm i --save s-is
+    npm i --save s-router
 
- * @example var is = require('s-is')    // in Node.js 
+ * @example var router = require('s-router')    // in Node.js 
  *
  * @exports s-router
  * @publick

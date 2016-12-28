@@ -15,7 +15,6 @@ function src ( name ) {
             'super.js',
             'endpoint.js',
             'unit.js',
-            'params.js',
             'router.js',
             'define.js'
         ]))
@@ -56,5 +55,5 @@ gulp.task('watch', ['build'], function () {
 
 gulp.task('build', ['concat', 'minify'], function () {
     gulp.start('lint');
-    // gulp.start('test');
+    // gulp.start('tests');
 });
