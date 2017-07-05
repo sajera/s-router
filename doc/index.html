@@ -1,0 +1,1511 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset='utf-8' />
+  <title>S-ROUTER 0.9.91 | Documentation</title>
+  <meta name='viewport' content='width=device-width,initial-scale=1'>
+  <link href='assets/bass.css' type='text/css' rel='stylesheet' />
+  <link href='assets/style.css' type='text/css' rel='stylesheet' />
+  <link href='assets/github.css' type='text/css' rel='stylesheet' />
+</head>
+<body class='documentation'>
+  <div class='max-width-4 mx-auto'>
+    <div class='clearfix md-mxn2'>
+      <div class='fixed xs-hide fix-3 overflow-auto max-height-100'>
+        <div class='py1 px2'>
+          <h3 class='mb0 no-anchor'>S-ROUTER</h3>
+          <div class='mb1'><code>0.9.91</code></div>
+          <input
+            placeholder='Filter'
+            id='filter-input'
+            class='col12 block input'
+            type='text' />
+          <div id='toc'>
+            <ul class='list-reset h5 py1-ul'>
+              
+                
+                <li><a
+                  href='#supportedmethods'
+                  class="">
+                  supportedMethods
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#issupportedmethod'
+                  class="">
+                  isSupportedMethod
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#debugprefix'
+                  class="">
+                  debugPrefix
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#stackprefix'
+                  class="">
+                  stackPrefix
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#unitmanager'
+                  class="">
+                  unitManager
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#unit'
+                  class="">
+                  Unit
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#exports'
+                  class="">
+                  exports
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#endpointmanager'
+                  class="">
+                  endpointManager
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#endpoint'
+                  class="">
+                  Endpoint
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#compare'
+                  class="">
+                  compare
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#matchparams'
+                  class="">
+                  matchParams
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#slicingmanager'
+                  class="">
+                  slicingManager
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#mapper'
+                  class="">
+                  mapper
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#router'
+                  class="">
+                  Router
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#initialize'
+                  class="">
+                  initialize
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#extendparams'
+                  class="">
+                  extendParams
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#crash'
+                  class="">
+                  crash
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#on'
+                  class="">
+                  on
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#use'
+                  class="">
+                  use
+                  
+                </a>
+                
+                </li>
+              
+            </ul>
+          </div>
+          <div class='mt1 h6 quiet'>
+            <a href='http://documentation.js.org/reading-documentation.html'>Need help reading this?</a>
+          </div>
+        </div>
+      </div>
+      <div class='fix-margin-3'>
+        
+          
+            <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='supportedmethods'>
+      supportedMethods
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>getting node methods</p>
+
+
+  <div class='pre p1 fill-light mt0'>supportedMethods</div>
+  
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+            <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='issupportedmethod'>
+      isSupportedMethod
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>checking support of method by name for this node</p>
+
+
+  <div class='pre p1 fill-light mt0'>isSupportedMethod(name: any): any</div>
+  
+  
+
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>name</span> <code class='quiet'>(any)</code>
+	    : { String }
+
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>any</code>:
+        : { Boolean }
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+            <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='debugprefix'>
+      debugPrefix
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>debug log</p>
+
+
+  <div class='pre p1 fill-light mt0'>debugPrefix</div>
+  
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+            <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='stackprefix'>
+      stackPrefix
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>first element form error stack</p>
+
+
+  <div class='pre p1 fill-light mt0'>stackPrefix</div>
+  
+  
+
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>error</span> <code class='quiet'>(any)</code>
+	    : { Error } - error which the stack need to write
+
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+            <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='unitmanager'>
+      unitManager
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>mapper for management and asynchronous extradition of endpoints by id</p>
+
+
+  <div class='pre p1 fill-light mt0'>unitManager(secretUnit: any, secretListeners: any, id: any, query: any): <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></div>
+  
+  
+
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>secretUnit</span> <code class='quiet'>(any)</code>
+	    : { Symbol } - bounded private key for map
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>secretListeners</span> <code class='quiet'>(any)</code>
+	    : { Symbol } - bounded private key for map
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>id</span> <code class='quiet'>(any)</code>
+	    : { String } - identifier (mostly for humanize)
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>query</span> <code class='quiet'>(any)</code>
+	    : { String } - humanised pattern of endpoint
+
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></code>:
+        
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+            <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='unit'>
+      Unit
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>endpoint module provides functionality
+{:path} - required - /(static name)/(dinamic data)/
+{?:path} - not required - /(static name - required even if its value is not obligatory)/(dinamic data)/
+{-:path} - convert to one part of query - /(expecting dinamic data)/
+{-?:path} - convert to one part of query - not required - /(expecting dinamic data)/</p>
+
+
+  <div class='pre p1 fill-light mt0'>new Unit(query: any, secret: any, id: any)</div>
+  
+  
+
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>query</span> <code class='quiet'>(any)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>secret</span> <code class='quiet'>(any)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>id</span> <code class='quiet'>(any)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+            <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='exports'>
+      exports
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>npm i --save s-router</p>
+
+
+  <div class='pre p1 fill-light mt0'>exports</div>
+  
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Example</div>
+    
+      
+      <pre class='p1 overflow-auto round fill-light'><span class="hljs-keyword">var</span> router = <span class="hljs-built_in">require</span>(<span class="hljs-string">'s-router'</span>)    <span class="hljs-comment">// in Node.js</span></pre>
+    
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+            <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='endpointmanager'>
+      endpointManager
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>mapper for management and asynchronous extradition of endpoints by id</p>
+
+
+  <div class='pre p1 fill-light mt0'>endpointManager(secretEndpoint: any, secretUnit: any, secretListeners: any, id: any, query: any): <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></div>
+  
+  
+
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>secretEndpoint</span> <code class='quiet'>(any)</code>
+	    : { Symbol } - bounded private key for map
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>secretUnit</span> <code class='quiet'>(any)</code>
+	    : { Symbol } - bounded private key for map
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>secretListeners</span> <code class='quiet'>(any)</code>
+	    : { Symbol } - bounded private key for map
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>id</span> <code class='quiet'>(any)</code>
+	    : { String } - identifier (mostly for humanize)
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>query</span> <code class='quiet'>(any)</code>
+	    : { String } - humanised pattern of endpoint
+
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></code>:
+        
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+            <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='endpoint'>
+      Endpoint
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>endpoint module provides functionality
+{:path} - required - /(static name)/(dinamic data)/
+{?:path} - not required - /(static name - required even if its value is not obligatory)/(dinamic data)/
+{-:path} - convert to one part of query - /(expecting dinamic data)/
+{-?:path} - convert to one part of query - not required - /(expecting dinamic data)/</p>
+
+
+  <div class='pre p1 fill-light mt0'>new Endpoint(query: any, secret: any, unitsMap: any, id: any)</div>
+  
+  
+
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>query</span> <code class='quiet'>(any)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>secret</span> <code class='quiet'>(any)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>unitsMap</span> <code class='quiet'>(any)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>id</span> <code class='quiet'>(any)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+            <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='compare'>
+      compare
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>compare query with this endpoint (fast)</p>
+
+
+  <div class='pre p1 fill-light mt0'>compare(query: any): any</div>
+  
+  
+
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>query</span> <code class='quiet'>(any)</code>
+	    : { String } - parsed url - pathname
+
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>any</code>:
+        : { Boolean }
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+            <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='matchparams'>
+      matchParams
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>get a query params from url</p>
+
+
+  <div class='pre p1 fill-light mt0'>matchParams(query: any): any</div>
+  
+  
+
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>query</span> <code class='quiet'>(any)</code>
+	    : { String } - parsed url - pathname
+
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>any</code>:
+        : { Object }
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+            <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='slicingmanager'>
+      slicingManager
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>slicing middleware</p>
+
+
+  <div class='pre p1 fill-light mt0'>slicingManager(secretEndpoint: any, secretListeners: any, request: any, response: any)</div>
+  
+  
+
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>secretEndpoint</span> <code class='quiet'>(any)</code>
+	    : { Symbol } - private key for getting map
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>secretListeners</span> <code class='quiet'>(any)</code>
+	    : { Symbol } - private key for getting map
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>request</span> <code class='quiet'>(any)</code>
+	    : { Object } - node server Request
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>response</span> <code class='quiet'>(any)</code>
+	    : { Object } - node server Response
+
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+            <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='mapper'>
+      mapper
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>mapper for management and asynchronous extradition of routers by id</p>
+
+
+  <div class='pre p1 fill-light mt0'>mapper</div>
+  
+  
+
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>id</span> <code class='quiet'>(any)</code>
+	    : { String } - name/id of router
+
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>any</code>:
+        : { Router }
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+            <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='router'>
+      Router
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>Router module provides functionality</p>
+
+
+  <div class='pre p1 fill-light mt0'>new Router(id: any)</div>
+  
+  
+
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>id</span> <code class='quiet'>(any)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+            <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='initialize'>
+      initialize
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>method to override</p>
+
+
+  <div class='pre p1 fill-light mt0'>initialize()</div>
+  
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+            <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='extendparams'>
+      extendParams
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>for extend prototype object of parameters
+adding to prototype more easy operations creating for each handling request</p>
+
+
+  <div class='pre p1 fill-light mt0'>extendParams(extend: any)</div>
+  
+  
+
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>extend</span> <code class='quiet'>(any)</code>
+	    : { Object||Function }
+
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+            <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='crash'>
+      crash
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>method to override</p>
+
+
+  <div class='pre p1 fill-light mt0'>crash()</div>
+  
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+            <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='on'>
+      on
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>to adding a handlers for router endpoint methods</p>
+
+
+  <div class='pre p1 fill-light mt0'>on(secret: any, method: any, listeners: any): any</div>
+  
+  
+
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>secret</span> <code class='quiet'>(any)</code>
+	    : { Symbol }
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>method</span> <code class='quiet'>(any)</code>
+	    : { String } - name of method
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>listeners</span> <code class='quiet'>(any)</code>
+	    : { Array|Function } - listeners of request
+
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>any</code>:
+        : { Object }
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+            <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='use'>
+      use
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>executed before queue point</p>
+
+
+  <div class='pre p1 fill-light mt0'>use(): any</div>
+  
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>any</code>:
+        : { Object }
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+      </div>
+    </div>
+  </div>
+  <script src='assets/anchor.js'></script>
+  <script src='assets/site.js'></script>
+</body>
+</html>

@@ -47,13 +47,49 @@ gulp.task('tests', function ( done ) {
         .pipe( require('gulp-mocha')({reporter: 'spec'}) );
 });
 
+gulp.task('build', ['concat', 'minify'], function () {
+    gulp.start('lint');
+    // gulp.start('tests');
+});
+
 gulp.task('watch', ['build'], function () {
-    
+
     gulp.watch('lib/*.js', ['concat']);
 
 });
 
-gulp.task('build', ['concat', 'minify'], function () {
-    gulp.start('lint');
-    // gulp.start('tests');
+gulp.task('doc', function () {
+    var doc = require('gulp-documentation');
+    return gulp.src('s-router.js')
+        .pipe( doc('html', {}, {
+            name: pkg.name.toUpperCase(),
+            version: pkg.version,
+            license: pkg.license,
+            date: date
+        }) )
+        .pipe( gulp.dest('doc') );
+});
+
+gulp.task('doc-md', function () {
+    var doc = require('gulp-documentation');
+    return gulp.src('s-router.js')
+        .pipe( doc('md', {}, {
+            name: pkg.name.toUpperCase(),
+            version: pkg.version,
+            license: pkg.license,
+            date: date,
+        }) )
+        .pipe( gulp.dest('doc') );
+});
+
+gulp.task('doc-json', function () {
+    var doc = require('gulp-documentation');
+    return gulp.src('s-router.js')
+        .pipe( doc('json', {}, {
+            name: pkg.name.toUpperCase(),
+            version: pkg.version,
+            license: pkg.license,
+            date: date
+        }) )
+        .pipe( gulp.dest('doc') );
 });
