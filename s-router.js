@@ -1,5 +1,5 @@
 /*
- * s-router version 0.9.9 at 2016-12-28
+ * s-routser version 0.9.91 at 2017-07-05
  * @license MIT License Copyright (c) 2016 Serhii Perekhrest <allsajera@gmail.com> ( Sajera )    
  */
 /** @ignore */
@@ -54,71 +54,63 @@ function trace ( error ) {
     return stackPrefix+(is.error(error) ? error.stack.split('\n')[1].replace(/(.*\()|(\).*)|(.*s>)/g,'') : '...');
 }
 /*-------------------------------------------------
-    SUPER for Router and Endpoint
+    UNIT
 ---------------------------------------------------*/
 /**
- * adding common functionality
+ * mapper for management and asynchronous extradition of endpoints by id
  *
- * @constructor prototype
- * @private
+ * @param secretUnit: { Symbol } - bounded private key for map
+ * @param secretListeners: { Symbol } - bounded private key for map
+ * @param id: { String } - identifier (mostly for humanize)
+ * @param query: { String } - humanised pattern of endpoint
+ * @returns { Object }
  */
-function Super ( extend ) {
-    // extend prototype wich be created
-    Object.assign.apply(Object,[this].concat(Array.prototype.slice.call(arguments, 0)));
-};
+function unitManager ( secretUnit, secretListeners, id, query ) {
 
-Super.prototype = {
-    constructor: Super,
-    /**
-     * to adding a handlers for router endpoint methods
-     *
-     * @param secret: { Symbol }
-     * @param method: { String } - name of method
-     * @param listeners: { Array|Function } - listeners of request
-     * @returns: { Object }
-     */
-    on: function ( secret, method, listeners ) {
+    assert(is.string(id), '"ID" of Unit must be a string');
+
+    var map = this[secretUnit];
+    !map[id]&&assert(is.string(query), 'for create unit "query" required and must be a string');
         
-        var map = this[secret];
-        method = method.toUpperCase();
-        assert( // to add a listener to request it must exist
-            isSupportedMethod(method), 'Node.js '+process.version+' doesn`t support method '+method
-        );
-        assert( // listners must be a function or array with functions
-            is.function(listeners)||is.array(listeners), 'listners must be a function or array with functions '+listeners
-        );
-        // if it first listner
-        map[method] = map[method] || [];
+    return map[id] ? map[id] : ( map[id] = new Unit(query, secretListeners, id) );
+}
 
-        if ( is.array(listeners) ) {
-            for ( var key = 0; key < listeners.length; key ++ ) {// each listeners must be a function
-                assert(is.function(listeners[key]), 'listners must be a function or array with functions '+listeners);
-            }
-            map[method] = map[method].concat(listeners);
-        } else if ( is.function(listeners) ) map[method].push(listeners);
+/**
+ * endpoint module provides functionality 
+ * {:path} - required - /(static name)/(dinamic data)/
+ * {?:path} - not required - /(static name - required even if its value is not obligatory)/(dinamic data)/
+ * {-:path} - convert to one part of query - /(expecting dinamic data)/
+ * {-?:path} - convert to one part of query - not required - /(expecting dinamic data)/
+ *
+ * @constructor
+ * @publick
+ */
+function Unit ( query, secret, id ) {
 
-        // debug('add listner on '+method+' for '+this.instance+' "'+this.id+'"');
-        return this;
-    },
-    /**
-     * executed before queue point
-     *
-     * @param: { Array|Function }
-     * @returns: { Object }
-     */
-    use: function alias ( listeners ) { return this.on('PREPROCESSOR', listeners); },
+    this.id = id;
+    this.query = query.replace(/\/+$/,'');
+    // visible private map of handlers
+    this[secret] = {};
+    this.on = this.on.bind(this, secret);
+
+    debug('Unit "'+this.id+'" created =>', query );
 };
 
-/*-------------------------------------------------
-    Create a method nammed like express
----------------------------------------------------*/
-for ( var key = 0; key < supportedMethods.length; key ++ ) {
-    Super.prototype[supportedMethods[key].toLowerCase()] = (function ( name ) {
-        return function alias ( listeners ) {
-            return this.on(name, listeners);
-        }
-    })(supportedMethods[key]);
-}
+Unit.prototype = new Super({
+    constructor: Unit,
+    instance: 'Unit'
+
+});
+/**
+ * @description
+    npm i --save s-router
+
+ * @example var router = require('s-router')    // in Node.js 
+ *
+ * @exports s-router
+ * @publick
+ */
+if ( is.platform.node() ) module.exports = mapper;
 
 /*-------------------------------------------------
     ENDPOINT
@@ -226,54 +218,6 @@ Endpoint.prototype = new Super({
     }
 });
 
-/*-------------------------------------------------
-    UNIT
----------------------------------------------------*/
-/**
- * mapper for management and asynchronous extradition of endpoints by id
- *
- * @param secretUnit: { Symbol } - bounded private key for map
- * @param secretListeners: { Symbol } - bounded private key for map
- * @param id: { String } - identifier (mostly for humanize)
- * @param query: { String } - humanised pattern of endpoint
- * @returns { Object }
- */
-function unitManager ( secretUnit, secretListeners, id, query ) {
-
-    assert(is.string(id), '"ID" of Unit must be a string');
-
-    var map = this[secretUnit];
-    !map[id]&&assert(is.string(query), 'for create unit "query" required and must be a string');
-        
-    return map[id] ? map[id] : ( map[id] = new Unit(query, secretListeners, id) );
-}
-
-/**
- * endpoint module provides functionality 
- * {:path} - required - /(static name)/(dinamic data)/
- * {?:path} - not required - /(static name - required even if its value is not obligatory)/(dinamic data)/
- * {-:path} - convert to one part of query - /(expecting dinamic data)/
- * {-?:path} - convert to one part of query - not required - /(expecting dinamic data)/
- *
- * @constructor
- * @publick
- */
-function Unit ( query, secret, id ) {
-
-    this.id = id;
-    this.query = query.replace(/\/+$/,'');
-    // visible private map of handlers
-    this[secret] = {};
-    this.on = this.on.bind(this, secret);
-
-    debug('Unit "'+this.id+'" created =>', query );
-};
-
-Unit.prototype = new Super({
-    constructor: Unit,
-    instance: 'Unit'
-
-});
 /*-------------------------------------------------
     ROUTER
 ---------------------------------------------------*/
@@ -469,15 +413,71 @@ Router.prototype = new Super({
     },
 });
 
+/*-------------------------------------------------
+    SUPER for Router and Endpoint
+---------------------------------------------------*/
 /**
- * @description
-    npm i --save s-router
-
- * @example var router = require('s-router')    // in Node.js 
+ * adding common functionality
  *
- * @exports s-router
- * @publick
+ * @constructor prototype
+ * @private
  */
-if ( is.platform.node() ) module.exports = mapper;
+function Super ( extend ) {
+    // extend prototype wich be created
+    Object.assign.apply(Object,[this].concat(Array.prototype.slice.call(arguments, 0)));
+};
+
+Super.prototype = {
+    constructor: Super,
+    /**
+     * to adding a handlers for router endpoint methods
+     *
+     * @param secret: { Symbol }
+     * @param method: { String } - name of method
+     * @param listeners: { Array|Function } - listeners of request
+     * @returns: { Object }
+     */
+    on: function ( secret, method, listeners ) {
+        
+        var map = this[secret];
+        method = method.toUpperCase();
+        assert( // to add a listener to request it must exist
+            isSupportedMethod(method), 'Node.js '+process.version+' doesn`t support method '+method
+        );
+        assert( // listners must be a function or array with functions
+            is.function(listeners)||is.array(listeners), 'listners must be a function or array with functions '+listeners
+        );
+        // if it first listner
+        map[method] = map[method] || [];
+
+        if ( is.array(listeners) ) {
+            for ( var key = 0; key < listeners.length; key ++ ) {// each listeners must be a function
+                assert(is.function(listeners[key]), 'listners must be a function or array with functions '+listeners);
+            }
+            map[method] = map[method].concat(listeners);
+        } else if ( is.function(listeners) ) map[method].push(listeners);
+
+        // debug('add listner on '+method+' for '+this.instance+' "'+this.id+'"');
+        return this;
+    },
+    /**
+     * executed before queue point
+     *
+     * @param: { Array|Function }
+     * @returns: { Object }
+     */
+    use: function alias ( listeners ) { return this.on('PREPROCESSOR', listeners); },
+};
+
+/*-------------------------------------------------
+    Create a method nammed like express
+---------------------------------------------------*/
+for ( var key = 0; key < supportedMethods.length; key ++ ) {
+    Super.prototype[supportedMethods[key].toLowerCase()] = (function ( name ) {
+        return function alias ( listeners ) {
+            return this.on(name, listeners);
+        }
+    })(supportedMethods[key]);
+}
 
 })() 

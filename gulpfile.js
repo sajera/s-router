@@ -4,7 +4,7 @@ var wrapper = require('gulp-wrap');
 var pkg = require('./package.json');
 var date = (new Date).toISOString().substring(0,10);
 var anonymous = '/** @ignore */\n(function () {\'use strict\';\n<%= contents %>\n})()';
-var license = '/*\n * s-router version '+pkg.version+' at '+date+
+var license = '/*\n * s-routser version '+pkg.version+' at '+date+
     '\n * @license MIT License Copyright (c) 2016 Serhii Perekhrest <allsajera@gmail.com> ( Sajera )\
     \n */\n<%= contents %> ';
 
