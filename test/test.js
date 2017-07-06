@@ -266,110 +266,110 @@ describe('s-router', function() {
             });
 
             endpointInstance // ... /event/123
-                    // Added only for tests to check the correctness of building queues of handlers
-                    .use(function ( request, response, params ) {
-                        // Determines its place of execution in the queue
-                        params.queue.push(endpointName+' => use');
-                    })
-                    // case when endpoint handler format answer for GET request
-                    .get(function ( request, response, params ) {
+                // Added only for tests to check the correctness of building queues of handlers
+                .use(function ( request, response, params ) {
+                    // Determines its place of execution in the queue
+                    params.queue.push(endpointName+' => use');
+                })
+                // case when endpoint handler format answer for GET request
+                .get(function ( request, response, params ) {
 
-                        describe('handle GET request of "'+endpointName+'"', function () {
+                    describe('handle GET request of "'+endpointName+'"', function () {
 
-                            it('url query params ', function () {
-                                expect(params.options).to.be.a('object').have.property('event').to.be.equal(config.urlId);
-                            });
+                        it('url query params ', function () {
+                            expect(params.options).to.be.a('object').have.property('event').to.be.equal(config.urlId);
                         });
-                        // Determines its place of execution in the queue
-                        params.queue.push(endpointName+' => get');
-                        // send answer with queue to determine correctnes of execution queue
-                        var body = JSON.stringify(params.queue);
-                        response.writeHead(200, {
-                            'Content-Type': 'application/json',
-                            'Content-Length': Buffer.byteLength(body)
-                        });
-                        response.end(body);
-                    })
-                    // case when endpoint handler format answer for POST request
-                    .post(function ( request, response, params ) {
+                    });
+                    // Determines its place of execution in the queue
+                    params.queue.push(endpointName+' => get');
+                    // send answer with queue to determine correctnes of execution queue
+                    var body = JSON.stringify(params.queue);
+                    response.writeHead(200, {
+                        'Content-Type': 'application/json',
+                        'Content-Length': Buffer.byteLength(body)
+                    });
+                    response.end(body);
+                })
+                // case when endpoint handler format answer for POST request
+                .post(function ( request, response, params ) {
 
-                        describe('handle POST request of "'+endpointName+'"', function () {
+                    describe('handle POST request of "'+endpointName+'"', function () {
 
-                            it('url query params ', function () {
-                                expect(params.options).to.be.a('object').have.property('event').to.be.equal(config.urlId);
-                            });
-                            // in this case unit "post-unit" already got and prepare post data
-                            it('post data shold equal sendend data', function () {
-                                expect(params.body).to.be.a('object').and.eql(config.data);
-                            });
+                        it('url query params ', function () {
+                            expect(params.options).to.be.a('object').have.property('event').to.be.equal(config.urlId);
                         });
-                        // Determines its place of execution in the queue
-                        params.queue.push(endpointName+' => post');
-                        // send answer with queue to determine correctnes of execution queue
-                        var body = JSON.stringify(params.queue);
-                        response.writeHead(200, {
-                            'Content-Type': 'application/json',
-                            'Content-Length': Buffer.byteLength(body)
+                        // in this case unit "post-unit" already got and prepare post data
+                        it('post data shold equal sendend data', function () {
+                            expect(params.body).to.be.a('object').and.eql(config.data);
                         });
-                        response.end(body);
-                    })
-                    .put(function ( request, response, params ) {
-                            // Determines its place of execution in the queue
-                            params.queue.push(endpointName+' => put1');
-                            // put data need to be prepared becose we specified prepering data only for POST =)
-                            return new Promise(function ( resolve, reject ) {
-                                var body = '';
-                                // This approach is not recommended
-                                // Used only for tests
-                                request.on('error', reject )
-                                    .on('data', function ( part ) { body += part; })
-                                    .on('end', function () {
-                                        params.body = JSON.parse(body);
-                                        resolve();
-                                    })
-                            });
-                    })
-                    .put(function ( request, response, params ) {
+                    });
+                    // Determines its place of execution in the queue
+                    params.queue.push(endpointName+' => post');
+                    // send answer with queue to determine correctnes of execution queue
+                    var body = JSON.stringify(params.queue);
+                    response.writeHead(200, {
+                        'Content-Type': 'application/json',
+                        'Content-Length': Buffer.byteLength(body)
+                    });
+                    response.end(body);
+                })
+                .put(function ( request, response, params ) {
+                    // Determines its place of execution in the queue
+                    params.queue.push(endpointName+' => put1');
+                    // put data need to be prepared becose we specified prepering data only for POST =)
+                    return new Promise(function ( resolve, reject ) {
+                        var body = '';
+                        // This approach is not recommended
+                        // Used only for tests
+                        request.on('error', reject )
+                            .on('data', function ( part ) { body += part; })
+                            .on('end', function () {
+                                params.body = JSON.parse(body);
+                                resolve();
+                            })
+                    });
+                })
+                .put(function ( request, response, params ) {
 
-                            describe('handle PUT request of "'+endpointName+'"', function () {
+                    describe('handle PUT request of "'+endpointName+'"', function () {
 
-                                it('url query params ', function () {
-                                    expect(params.options).to.be.a('object').have.property('event').to.be.equal(config.urlId);
-                                });
-                                // in this case unit "post-unit" du not prepare data becose it do this only on POST
-                                // but we use 2 hendlers for put method and in previouse method prepare data
-                                it('post data shold equal sendend data', function () {
-                                    expect(params.body).to.be.a('object').and.eql(config.data);
-                                });
-                            });
-                            // Determines its place of execution in the queue
-                            params.queue.push(endpointName+' => put2');
-                            // send answer with queue to determine correctnes of execution queue
-                            var body = JSON.stringify(params.queue);
-                            response.writeHead(200, {
-                                'Content-Type': 'application/json',
-                                'Content-Length': Buffer.byteLength(body)
-                            });
-                            response.end(body);
-                    })
-                    .delete(function ( request, response, params ) {
-                        describe('handle DELETE request of "'+endpointName+'"', function () {
-                            it('url query params ', function () {
-                                expect(params.options).to.be.a('object').have.property('event').to.be.equal(config.urlId);
-                            });
+                        it('url query params ', function () {
+                            expect(params.options).to.be.a('object').have.property('event').to.be.equal(config.urlId);
                         });
-                        // Determines its place of execution in the queue
-                        params.queue.push('post-unit.head-unit.event => delete');
-                        // send answer with queue to determine correctnes of execution queue
-                        var body = JSON.stringify(params.queue);
-                        response.writeHead(200, {
-                            'Content-Type': 'application/json',
-                            'Content-Length': Buffer.byteLength(body)
+                        // in this case unit "post-unit" du not prepare data becose it do this only on POST
+                        // but we use 2 hendlers for put method and in previouse method prepare data
+                        it('post data shold equal sendend data', function () {
+                            expect(params.body).to.be.a('object').and.eql(config.data);
                         });
-                        response.end(body);
-                    })
+                    });
+                    // Determines its place of execution in the queue
+                    params.queue.push(endpointName+' => put2');
+                    // send answer with queue to determine correctnes of execution queue
+                    var body = JSON.stringify(params.queue);
+                    response.writeHead(200, {
+                        'Content-Type': 'application/json',
+                        'Content-Length': Buffer.byteLength(body)
+                    });
+                    response.end(body);
+                })
+                .delete(function ( request, response, params ) {
+                    describe('handle DELETE request of "'+endpointName+'"', function () {
+                        it('url query params ', function () {
+                            expect(params.options).to.be.a('object').have.property('event').to.be.equal(config.urlId);
+                        });
+                    });
+                    // Determines its place of execution in the queue
+                    params.queue.push('post-unit.head-unit.event => delete');
+                    // send answer with queue to determine correctnes of execution queue
+                    var body = JSON.stringify(params.queue);
+                    response.writeHead(200, {
+                        'Content-Type': 'application/json',
+                        'Content-Length': Buffer.byteLength(body)
+                    });
+                    response.end(body);
+                })
         });
-
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         describe('name post-unit.part-unit.event /part/123/event/123', function () {
             router(config.routerID).endpoint('post-unit.part-unit.event', '/{:event}');
 
