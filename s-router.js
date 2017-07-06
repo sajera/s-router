@@ -20,7 +20,7 @@ var supportedMethods = (http.METHODS || [
     'GET', 'POST', 'PUT', 'DELETE', 'OPTIONS','HEAD', 'PATCH', 'SEARCH',
     'TRACE', 'MOVE', 'COPY', 'LOCK', 'UNLOCK', 'MKCOL', 'M-SEARCH',
     'PURGE', 'PROPFIND', 'PROPPATCH', 'REPORT', 'MKACTIVITY', 'CONNECT',
-    'CHECKOUT', 'MERGE', 'NOTIFY', 'SUBSCRIBE', 'UNSUBSCRIBE' 
+    'CHECKOUT', 'MERGE', 'NOTIFY', 'SUBSCRIBE', 'UNSUBSCRIBE'
 ]).concat('PREPROCESSOR', 'ERROR');
 
 /**
@@ -39,7 +39,7 @@ function isSupportedMethod ( name ) {
  */
 var debugPrefix = is.platform.browser() ? 's-debug:' : '\x1B[0m\x1B[41m s-debug:\x1B[49m\x1B[0m';
 function debug () {
-    if ( process.env.DEBUG&&!is.empty(arguments) ) {
+    if ( options.DEBUG&&!is.empty(arguments) ) {
         console.log.apply(console, [debugPrefix].concat(Array.prototype.slice.call(arguments)));
     }
 }
@@ -53,6 +53,7 @@ var stackPrefix = is.platform.browser() ? 'source: ' : '\x1B[0m\x1B[31m source:\
 function trace ( error ) {
     return stackPrefix+(is.error(error) ? error.stack.split('\n')[1].replace(/(.*\()|(\).*)|(.*s>)/g,'') : '...');
 }
+
 /*-------------------------------------------------
     SUPER for Router and Endpoint
 ---------------------------------------------------*/
@@ -469,15 +470,32 @@ Router.prototype = new Super({
     },
 });
 
+var options = routerManager.bind({});
+/**
+ * @description
+    router have default options properties to overade
+ * @eaxmple
+    // debug mode
+    var router = require('../s-router.js');
+    router.DEBUG = true;
+
+
+
+ * @public
+ */
+options.DEBUG = false;
+
+
 /**
  * @description
     npm i --save s-router
 
- * @example var router = require('s-router')    // in Node.js 
+ * @example var router = require('s-router')    // in Node.js
  *
  * @exports s-router
  * @publick
  */
-if ( is.platform.node() ) module.exports = mapper;
+if ( is.platform.node() ) module.exports = options;
+else debug('can not work on this platform');
 
 })() 

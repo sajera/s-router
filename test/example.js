@@ -1,11 +1,13 @@
 
-process.env.DEBUG = true;
 console.log('test');
 
 var is = require('s-is');
 var router = require('../s-router.js');
+router.DEBUG = true;
 
-var server = (require('http')).createServer(router('router-id').middleware)
+var routerInstance = router('router-id');
+
+var server = (require('http')).createServer(routerInstance.middleware)
     .listen({
         port: 80
     }, function() {
