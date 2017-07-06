@@ -21,10 +21,8 @@ var config = {
     }
 };
 /**
- * 
- * @example
-    send('head','/event/123')
-
+ * helper to make a requests
+ * @example send('head','/event/123')
  * @param { String } : method
  * @param { String } : url
  * @param { Object } : data
@@ -47,113 +45,167 @@ function send ( method, url, data ) {
 
 describe('s-router', function() {
 
-    it('mapper', function () {
-        expect( router(config.routerID) ).to.have.property('id').and.equal( config.routerID );
+    var routerInstance = router(config.routerID);
+    it('s-router instance', function () {
+        expect( routerInstance ).to.have.property('id').and.equal( config.routerID );
+        expect( routerInstance.middleware ).to.be.a('function');
+        expect( routerInstance.endpoint ).to.be.a('function');
+        expect( routerInstance.unit ).to.be.a('function');
     });
 
+    it('s-router instance shold have common "on"', function () {
+        expect( routerInstance.on ).to.be.a('function');
+    });
+
+    it('s-router instance shold equal stored router', function () {
+        expect( routerInstance ).to.equal( router(config.routerID) );
+    });
+
+    it('s-router options DEBUG enable', function () {
+        router.DEBUG = true
+        expect( router.DEBUG ).to.equal( require('../s-router.js').DEBUG );
+    });
+
+    // start server with s-router instance
     before(function() {
-        // process.env.DEBUG = true;
         return new Promise(function ( resolve, reject ) {
+            // short variant
+            // server = http.createServer(routerInstance.middleware).listen({port: config.port}, resolve);
+            // add your additional logic for preparing requests
             server = http.createServer( function ( request, response ){
                 // console.log('got request', request.method, request.url);
-                router( config.routerID ).middleware( request, response );
+                routerInstance.middleware( request, response );
             })
-            .listen({ port: config.port, }, function() {
-                console.log('server open');
+            .listen({ port: config.port }, function() {
+                console.log('server start');
                 resolve();
             })
             .on('close', function () { console.log('server close'); })
             .on('error', function (e) { console.log('server error'); })
         });
     });
-
-    after(function() {
-        server.close();
-        // delete process.env.DEBUG;
-    });
+    // stop server after tests
+    after(function() { server.close(); });
     /*-------------------------------------------------
-        UNITS    
+        UNITS
     ---------------------------------------------------*/
-    // require('./test-units.js');
     describe('units', function() {
 
-        describe('name head-unit', function () {
-            router(config.routerID).unit('head-unit', '');
+        describe('s-router instance create unit "head-unit"', function () {
+            var unitName = 'head-unit';
+            var unitUrlPart = '';
+            var unitInstance = router(config.routerID).unit(unitName, unitUrlPart);
 
-            it('mapping', function () {
-                expect( router(config.routerID).unit('head-unit') ).to.have.property('id').and.equal('head-unit');
-                expect( router(config.routerID).unit('head-unit') ).to.have.property('query').and.equal('');
-            });
-            it('common "on"', function () {
-                expect( router(config.routerID).unit('head-unit').on ).to.be.a('function');
+            it('s-router unit instance', function () {
+                expect( unitInstance ).to.have.property('id').and.equal( unitName );
+                expect( unitInstance ).to.have.property('query').and.equal( unitUrlPart );
             });
 
-            router( config.routerID )
-                .unit('head-unit')
-                    .use(function ( request, response, params ) {
-                        params.queue.push('head-unit => use');
-                    })
-                    .head(function ( request, response, params ) {
-                        params.queue.push('head-unit => head');
-                        var body = JSON.stringify(params.queue);
-                        response.writeHead(200, {
-                            'Content-Type': 'application/json',
-                            'body': body
-                        });
-                        response.end('ok');
+            it('s-router unit instance shold equal stored unit', function () {
+                expect( unitInstance ).to.equal( router(config.routerID).unit(unitName) );
+            });
+
+            it('s-router unit instance shold have common "on"', function () {
+                expect( unitInstance.on ).to.be.a('function');
+            });
+
+            unitInstance
+                // Determines its place of execution in the queue
+                // if it will be added to endpoint
+                // Added only for tests to check the correctness of building queues of handlers
+                .use(function ( request, response, params ) {
+                    params.queue.push(unitName+' => use');
+                })
+                // case when unit hadle end responded for all head request
+                // if it will be added to endpoint
+                .head(function ( request, response, params ) {
+                    params.queue.push(unitName+' => head');
+                    var body = JSON.stringify(params.queue);
+                    response.writeHead(200, {
+                        'Content-Type': 'application/json',
+                        'body': body
                     });
+                    // each handler can prevent propogation of listeners
+                    // if it use response.end
+                    response.end('ok');
+                });
         });
 
-        describe('name post-unit', function () {
-            router(config.routerID).unit('post-unit', '');
+        describe('s-router instance create unit "post-unit"', function () {
+            var unitName = 'post-unit';
+            var unitUrlPart = '';
+            var unitInstance = router(config.routerID).unit(unitName, unitUrlPart);
 
-            it('mapping', function () {
-                expect( router(config.routerID).unit('post-unit') ).to.have.property('id').and.equal('post-unit');
-                expect( router(config.routerID).unit('post-unit') ).to.have.property('query').and.equal('');
-            });
-            it('common "on"', function () {
-                expect( router(config.routerID).unit('post-unit').on ).to.be.a('function');
+            it('s-router unit instance', function () {
+                expect( unitInstance ).to.have.property('id').and.equal( unitName );
+                expect( unitInstance ).to.have.property('query').and.equal( unitUrlPart );
             });
 
-            router(config.routerID)
-                .unit('post-unit')
-                    .use(function ( request, response, params ) {
-                        params.queue.push('post-unit => use');
-                    })
-                    .post(function ( request, response, params ) {
-                        params.queue.push('post-unit => post');
-                        return new Promise(function ( resolve, reject ) {
-                            var body = '';
-                            request.on('error', reject )
-                                .on('data', function ( part ) { body += part; })
-                                .on('end', function () {
-                                    params.body = body;
-                                    resolve();
-                                })
-                        });
-                    })
+            it('s-router unit instance shold equal stored unit', function () {
+                expect( unitInstance ).to.equal( router(config.routerID).unit(unitName) );
+            });
+
+            it('s-router unit instance shold have common "on"', function () {
+                expect( unitInstance.on ).to.be.a('function');
+            });
+
+            unitInstance
+                // Determines its place of execution in the queue
+                // if it will be added to endpoint
+                // Added only for tests to check the correctness of building queues of handlers
+                .use(function ( request, response, params ) {
+                    params.queue.push(unitName+' => use');
+                })
+                // case when unit hadle end prepare post data
+                // if it will be added to endpoint
+                .post(function ( request, response, params ) {
+                    params.queue.push(unitName+' => post');
+                    return new Promise(function ( resolve, reject ) {
+                        var body = '';
+                        // This approach is not recommended
+                        // Used only for tests
+                        request.on('error', reject )
+                            .on('data', function ( part ) { body += part; })
+                            .on('end', function () {
+                                params.body = body;
+                                resolve();
+                            })
+                    });
+                })
         });
 
-        describe('name auth-unit', function () {
-            router(config.routerID).unit('auth-unit', '/{:auth}');
+        describe('s-router instance create unit "auth-unit"', function () {
+            var unitName = 'auth-unit';
+            var unitUrlPart = '/{:auth}';
+            var unitInstance = router(config.routerID).unit(unitName, unitUrlPart);
 
-            it('mapping', function () {
-                expect( router(config.routerID).unit('auth-unit') ).to.have.property('id').and.equal('auth-unit');
-                expect( router(config.routerID).unit('auth-unit') ).to.have.property('query').and.equal('/{:auth}');
-            });
-            it('common "on"', function () {
-                expect( router(config.routerID).unit('auth-unit').on ).to.be.a('function');
+            it('s-router unit instance', function () {
+                expect( unitInstance ).to.have.property('id').and.equal( unitName );
+                expect( unitInstance ).to.have.property('query').and.equal( unitUrlPart );
             });
 
-            router(config.routerID)
-                .unit('auth-unit')
-                    .use(function ( request, response, params ) {
-                        params.authData = 'auth-unit result';
-                        params.queue.push('auth-unit => use1');
-                    })
-                    .use(function ( request, response, params ) {
-                        params.queue.push('auth-unit => use2');
-                    })
+            it('s-router unit instance shold equal stored unit', function () {
+                expect( unitInstance ).to.equal( router(config.routerID).unit(unitName) );
+            });
+
+            it('s-router unit instance shold have common "on"', function () {
+                expect( unitInstance.on ).to.be.a('function');
+            });
+
+            unitInstance
+                // Determines its place of execution in the queue
+                // if it will be added to endpoint
+                // Added only for tests to check the correctness of building queues of handlers
+                .use(function ( request, response, params ) {
+                    params.authData = unitName+' result';
+                    params.queue.push(unitName+' => use1');
+                })
+                // Determines its place of execution in the queue
+                // if it will be added to endpoint
+                // Added only for tests to check the correctness of building queues of handlers
+                .use(function ( request, response, params ) {
+                    params.queue.push(unitName+' => use2');
+                })
         });
 
     });

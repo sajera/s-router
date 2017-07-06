@@ -475,6 +475,7 @@ var options = routerManager.bind({});
  * @description
     router have default options properties to overade
  * @eaxmple
+
     // debug mode
     var router = require('../s-router.js');
     router.DEBUG = true;

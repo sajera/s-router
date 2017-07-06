@@ -6,7 +6,7 @@
   "scripts": {
     "rebuild": "gulp build&gulp doc&gulp doc-md",
     "debug": "devtool test/example.js",
-    "test": "gulp lint&gulp test"
+    "tests": "gulp lint&gulp tests"
   },
   "homepage": "https://github.com/sajera/s-router#readme",
   "repository": {
