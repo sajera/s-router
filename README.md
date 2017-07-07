@@ -163,6 +163,8 @@ router.endpoint('someUnit.id-enother', '/{:p2}/{?:id}')
 
 **Note:** You can build your map as you wish. These are only examples, "as it could be"
 
+#### [```API documentation ```](https://github.com/sajera/s-router/blob/master/doc/API.md)
+
 [npm-image]: https://badge.fury.io/js/s-router.svg
 [npm-url]: https://npmjs.org/package/s-router
 [license-image]: http://img.shields.io/npm/l/s-router.svg

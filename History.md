@@ -1,3 +1,9 @@
+0.9.92 / 20117-07-07 
+------------------
+* Tests improve
+* build preoject improve
+* start developing documentation
+
 
 0.9.7 / 2016-10-19 
 ------------------
