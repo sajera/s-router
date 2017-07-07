@@ -2,7 +2,7 @@
 <html>
 <head>
   <meta charset='utf-8' />
-  <title>S-ROUTER 0.9.91 | Documentation</title>
+  <title>S-ROUTER 0.9.92 | Documentation</title>
   <meta name='viewport' content='width=device-width,initial-scale=1'>
   <link href='assets/bass.css' type='text/css' rel='stylesheet' />
   <link href='assets/style.css' type='text/css' rel='stylesheet' />
@@ -14,7 +14,7 @@
       <div class='fixed xs-hide fix-3 overflow-auto max-height-100'>
         <div class='py1 px2'>
           <h3 class='mb0 no-anchor'>S-ROUTER</h3>
-          <div class='mb1'><code>0.9.91</code></div>
+          <div class='mb1'><code>0.9.92</code></div>
           <input
             placeholder='Filter'
             id='filter-input'
@@ -22,6 +22,16 @@
             type='text' />
           <div id='toc'>
             <ul class='list-reset h5 py1-ul'>
+              
+                
+                <li><a
+                  href='#debug'
+                  class="">
+                  debug
+                  
+                </a>
+                
+                </li>
               
                 
                 <li><a
@@ -65,9 +75,9 @@
               
                 
                 <li><a
-                  href='#unitmanager'
+                  href='#on'
                   class="">
-                  unitManager
+                  on
                   
                 </a>
                 
@@ -75,19 +85,9 @@
               
                 
                 <li><a
-                  href='#unit'
+                  href='#use'
                   class="">
-                  Unit
-                  
-                </a>
-                
-                </li>
-              
-                
-                <li><a
-                  href='#exports'
-                  class="">
-                  exports
+                  use
                   
                 </a>
                 
@@ -128,6 +128,26 @@
                   href='#matchparams'
                   class="">
                   matchParams
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#unitmanager'
+                  class="">
+                  unitManager
+                  
+                </a>
+                
+                </li>
+              
+                
+                <li><a
+                  href='#unit'
+                  class="">
+                  Unit
                   
                 </a>
                 
@@ -195,19 +215,9 @@
               
                 
                 <li><a
-                  href='#on'
+                  href='#debug'
                   class="">
-                  on
-                  
-                </a>
-                
-                </li>
-              
-                
-                <li><a
-                  href='#use'
-                  class="">
-                  use
+                  DEBUG
                   
                 </a>
                 
@@ -221,6 +231,58 @@
         </div>
       </div>
       <div class='fix-margin-3'>
+        
+          
+            <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='debug'>
+      debug
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>npm i --save s-router</p>
+
+
+  <div class='pre p1 fill-light mt0'>debug</div>
+  
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Example</div>
+    
+      
+      <pre class='p1 overflow-auto round fill-light'><span class="hljs-keyword">var</span> router = <span class="hljs-built_in">require</span>(<span class="hljs-string">'s-router'</span>)    <span class="hljs-comment">// in Node.js</span></pre>
+    
+  
+
+  
+
+  
+
+  
+</section>
+
+          
         
           
             <section class='p2 mb2 clearfix bg-white minishadow'>
@@ -448,18 +510,18 @@
   
   <div class='clearfix'>
     
-    <h3 class='fl m0' id='unitmanager'>
-      unitManager
+    <h3 class='fl m0' id='on'>
+      on
     </h3>
     
     
   </div>
   
 
-  <p>mapper for management and asynchronous extradition of endpoints by id</p>
+  <p>to adding a handlers for router endpoint methods</p>
 
 
-  <div class='pre p1 fill-light mt0'>unitManager(secretUnit: any, secretListeners: any, id: any, query: any): <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></div>
+  <div class='pre p1 fill-light mt0'>on(secret: any, method: any, listeners: any): any</div>
   
   
 
@@ -475,8 +537,8 @@
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>secretUnit</span> <code class='quiet'>(any)</code>
-	    : { Symbol } - bounded private key for map
+            <span class='code bold'>secret</span> <code class='quiet'>(any)</code>
+	    : { Symbol }
 
           </div>
           
@@ -484,8 +546,8 @@
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>secretListeners</span> <code class='quiet'>(any)</code>
-	    : { Symbol } - bounded private key for map
+            <span class='code bold'>method</span> <code class='quiet'>(any)</code>
+	    : { String } - name of method
 
           </div>
           
@@ -493,17 +555,8 @@
       
         <div class='space-bottom0'>
           <div>
-            <span class='code bold'>id</span> <code class='quiet'>(any)</code>
-	    : { String } - identifier (mostly for humanize)
-
-          </div>
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>query</span> <code class='quiet'>(any)</code>
-	    : { String } - humanised pattern of endpoint
+            <span class='code bold'>listeners</span> <code class='quiet'>(any)</code>
+	    : { Array|Function } - listeners of request
 
           </div>
           
@@ -517,8 +570,8 @@
   
     
       <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></code>:
-        
+      <code>any</code>:
+        : { Object }
 
       
     
@@ -543,22 +596,18 @@
   
   <div class='clearfix'>
     
-    <h3 class='fl m0' id='unit'>
-      Unit
+    <h3 class='fl m0' id='use'>
+      use
     </h3>
     
     
   </div>
   
 
-  <p>endpoint module provides functionality
-{:path} - required - /(static name)/(dinamic data)/
-{?:path} - not required - /(static name - required even if its value is not obligatory)/(dinamic data)/
-{-:path} - convert to one part of query - /(expecting dinamic data)/
-{-?:path} - convert to one part of query - not required - /(expecting dinamic data)/</p>
+  <p>executed before queue point</p>
 
 
-  <div class='pre p1 fill-light mt0'>new Unit(query: any, secret: any, id: any)</div>
+  <div class='pre p1 fill-light mt0'>use(): any</div>
   
   
 
@@ -569,94 +618,21 @@
   
 
   
-    <div class='py1 quiet mt1 prose-big'>Parameters</div>
-    <div class='prose'>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>query</span> <code class='quiet'>(any)</code>
-	    
-          </div>
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>secret</span> <code class='quiet'>(any)</code>
-	    
-          </div>
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>id</span> <code class='quiet'>(any)</code>
-	    
-          </div>
-          
-        </div>
-      
-    </div>
-  
 
   
 
   
-
-  
-
-  
-
-  
-
-  
-
-  
-</section>
-
-          
-        
-          
-            <section class='p2 mb2 clearfix bg-white minishadow'>
-
-  
-  <div class='clearfix'>
     
-    <h3 class='fl m0' id='exports'>
-      exports
-    </h3>
-    
-    
-  </div>
-  
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code>any</code>:
+        : { Object }
 
-  <p>npm i --save s-router</p>
-
-
-  <div class='pre p1 fill-light mt0'>exports</div>
-  
-  
-
-  
-  
-  
-  
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Example</div>
-    
       
-      <pre class='p1 overflow-auto round fill-light'><span class="hljs-keyword">var</span> router = <span class="hljs-built_in">require</span>(<span class="hljs-string">'s-router'</span>)    <span class="hljs-comment">// in Node.js</span></pre>
     
+  
+
+  
+
   
 
   
@@ -980,6 +956,180 @@
 
       
     
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+            <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='unitmanager'>
+      unitManager
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>mapper for management and asynchronous extradition of endpoints by id</p>
+
+
+  <div class='pre p1 fill-light mt0'>unitManager(secretUnit: any, secretListeners: any, id: any, query: any): <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></div>
+  
+  
+
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>secretUnit</span> <code class='quiet'>(any)</code>
+	    : { Symbol } - bounded private key for map
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>secretListeners</span> <code class='quiet'>(any)</code>
+	    : { Symbol } - bounded private key for map
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>id</span> <code class='quiet'>(any)</code>
+	    : { String } - identifier (mostly for humanize)
+
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>query</span> <code class='quiet'>(any)</code>
+	    : { String } - humanised pattern of endpoint
+
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
+  
+    
+      <div class='py1 quiet mt1 prose-big'>Returns</div>
+      <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object">Object</a></code>:
+        
+
+      
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+</section>
+
+          
+        
+          
+            <section class='p2 mb2 clearfix bg-white minishadow'>
+
+  
+  <div class='clearfix'>
+    
+    <h3 class='fl m0' id='unit'>
+      Unit
+    </h3>
+    
+    
+  </div>
+  
+
+  <p>endpoint module provides functionality
+{:path} - required - /(static name)/(dinamic data)/
+{?:path} - not required - /(static name - required even if its value is not obligatory)/(dinamic data)/
+{-:path} - convert to one part of query - /(expecting dinamic data)/
+{-?:path} - convert to one part of query - not required - /(expecting dinamic data)/</p>
+
+
+  <div class='pre p1 fill-light mt0'>new Unit(query: any, secret: any, id: any)</div>
+  
+  
+
+  
+  
+  
+  
+  
+
+  
+    <div class='py1 quiet mt1 prose-big'>Parameters</div>
+    <div class='prose'>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>query</span> <code class='quiet'>(any)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>secret</span> <code class='quiet'>(any)</code>
+	    
+          </div>
+          
+        </div>
+      
+        <div class='space-bottom0'>
+          <div>
+            <span class='code bold'>id</span> <code class='quiet'>(any)</code>
+	    
+          </div>
+          
+        </div>
+      
+    </div>
+  
+
+  
+
   
 
   
@@ -1368,104 +1518,18 @@ adding to prototype more easy operations creating for each handling request</p>
   
   <div class='clearfix'>
     
-    <h3 class='fl m0' id='on'>
-      on
+    <h3 class='fl m0' id='debug'>
+      DEBUG
     </h3>
     
     
   </div>
   
 
-  <p>to adding a handlers for router endpoint methods</p>
+  <p>router have default options properties to overade</p>
 
 
-  <div class='pre p1 fill-light mt0'>on(secret: any, method: any, listeners: any): any</div>
-  
-  
-
-  
-  
-  
-  
-  
-
-  
-    <div class='py1 quiet mt1 prose-big'>Parameters</div>
-    <div class='prose'>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>secret</span> <code class='quiet'>(any)</code>
-	    : { Symbol }
-
-          </div>
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>method</span> <code class='quiet'>(any)</code>
-	    : { String } - name of method
-
-          </div>
-          
-        </div>
-      
-        <div class='space-bottom0'>
-          <div>
-            <span class='code bold'>listeners</span> <code class='quiet'>(any)</code>
-	    : { Array|Function } - listeners of request
-
-          </div>
-          
-        </div>
-      
-    </div>
-  
-
-  
-
-  
-    
-      <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code>any</code>:
-        : { Object }
-
-      
-    
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-</section>
-
-          
-        
-          
-            <section class='p2 mb2 clearfix bg-white minishadow'>
-
-  
-  <div class='clearfix'>
-    
-    <h3 class='fl m0' id='use'>
-      use
-    </h3>
-    
-    
-  </div>
-  
-
-  <p>executed before queue point</p>
-
-
-  <div class='pre p1 fill-light mt0'>use(): any</div>
+  <div class='pre p1 fill-light mt0'>DEBUG</div>
   
   
 
@@ -1479,14 +1543,6 @@ adding to prototype more easy operations creating for each handling request</p>
 
   
 
-  
-    
-      <div class='py1 quiet mt1 prose-big'>Returns</div>
-      <code>any</code>:
-        : { Object }
-
-      
-    
   
 
   
