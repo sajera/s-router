@@ -44,7 +44,7 @@ function send ( method, url, data ) {
     });
 }
 
-describe('s-router', function() {
+describe('ROUTER', function() {
     // prepare router instance
     var routerInstance = router(config.routerID);
 
@@ -64,7 +64,7 @@ describe('s-router', function() {
     });
 
     it('s-router options DEBUG enable', function () {
-        router.DEBUG = true
+        // router.DEBUG = true
         expect( router.DEBUG ).to.equal( require('../s-router.js').DEBUG );
     });
 
