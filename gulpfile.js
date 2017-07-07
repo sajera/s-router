@@ -12,10 +12,10 @@ function src ( name ) {
     return gulp.src(['lib/*.js'])
         .pipe(require('gulp-order')([ // queue of files
             'util.js',
-            'super.js',
-            'endpoint.js',
-            'unit.js',
-            'router.js',
+            'Super.js',
+            'Endpoint.js',
+            'Unit.js',
+            'Router.js',
             'define.js'
         ]))
         .pipe( require('gulp-concat')(name||'s-router.js') )
