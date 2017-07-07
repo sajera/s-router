@@ -377,7 +377,7 @@ describe('s-router', function() {
                         });
                     });
                     // Determines its place of execution in the queue
-                    params.queue.push('post-unit.head-unit.event => delete');
+                    params.queue.push(endpointName+' => delete');
                     // send answer with queue to determine correctnes of execution queue
                     var body = JSON.stringify(params.queue);
                     response.writeHead(200, {
@@ -518,7 +518,7 @@ describe('s-router', function() {
                         });
                     });
                     // Determines its place of execution in the queue
-                    params.queue.push('post-unit.head-unit.event => delete');
+                    params.queue.push(endpointName+' => delete');
                     // send answer with queue to determine correctnes of execution queue
                     var body = JSON.stringify(params.queue);
                     response.writeHead(200, {
@@ -530,9 +530,11 @@ describe('s-router', function() {
         });
     });
 
-
+    /*-------------------------------------------------
+        REQUESTS
+    ---------------------------------------------------*/
     var path = '/event/'+config.urlId;
-    describe('requests '+path, function() {
+    describe('REQUESTS send '+path, function() {
         it('OPTIONS answer expect', function ( done ) {
             send('options', path)
                 .then(function ( success ) {
@@ -672,7 +674,7 @@ describe('s-router', function() {
     });
 
     var path2 = '/part/'+config.urlId+'/event/'+config.urlId;
-    describe('requests '+path2, function() {
+    describe('REQUESTS send '+path2, function() {
         it('OPTION part answer expect', function ( done ) {
             send('options', path2)
                 .then(function ( success ) {
