@@ -1,6 +1,6 @@
 {
   "name": "s-router",
-  "version": "0.9.91",
+  "version": "0.9.92",
   "description": "The router for cutting middleware by endpoints",
   "main": "s-router.min.js",
   "scripts": {

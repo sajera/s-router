@@ -1,5 +1,5 @@
 /*
- * s-routser version 0.9.91 at 2017-07-06
+ * s-routser version 0.9.92 at 2017-07-07
  * @license MIT License Copyright (c) 2016 Serhii Perekhrest <allsajera@gmail.com> ( Sajera )    
  */
 /** @ignore */
